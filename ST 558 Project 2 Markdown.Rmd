@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Introduction
 
-The document is a vignette that will show how to read and summarize data from an API. More specifically, the [Fruityvice API]("https://www.fruityvice.com/doc/index.html). The API has only a limited number of data which is 45 observations corresponding to 45 different fruits, so there are some limitations in terms of analysis. There are few endpoints in which we can access the API, and we will go through a couple of them and how to access them using functions.
+The document is a vignette that will show how to read and summarize data from an API. More specifically, the [Fruityvice API]("https://www.fruityvice.com/doc/index.html). The API has only a limited number of data which is 45 observations corresponding to 45 different fruits, along with their different nutrition values per 100g, so there are some limitations in terms of analysis. There are few endpoints in which we can access the API, and we will go through a couple of them and how to access them using functions.
 
 # Required Packages
 
@@ -35,8 +35,7 @@ I will be defining the functions that can be used to pull data from different en
 
 ## `fruits_full()`
 
-This function interacts with the overall fruityvice API and returns a tibble of all fruits in API.
-Additionally, the function will be the skeleton for all the other functions in this vignette.
+This function interacts with the overall fruityvice API and returns a tibble of all fruits in API. Additionally, the function will be the skeleton for all the other functions in this vignette. This function has no additional parameters.
 ```{r}
 fruits_full <- function() {
     
@@ -66,7 +65,7 @@ return(as_tibble(dataframe))
 
 ## `fruits_by_family()`
 
-The function interacts with the "family" endpoint in the fruityvice API. Family is a taxonomic classification in which organisms are classified. It takes a parameter called family_name and return a dataframe by whatever family is chosen in parameter. Default is Rosaceae.
+The function interacts with the "family" endpoint in the fruityvice API. Family is a taxonomic classification in which organisms are classified. It takes a parameter called family_name and return a dataframe by whatever family is chosen in parameter. Default parameter value is Rosaceae.
 ```{r}
 fruits_by_family <- function(family_name = "Rosaceae") {
 
@@ -98,7 +97,7 @@ return(as_tibble(dataframe))
 
 ## `fruits_by_order()`
 
-The function interacts with the "order" endpoint in the fruityvice API. Order is a taxonomic classification in which organisms are classified. It takes a parameter called order_name and return a dataframe by whatever order is chosen in parameter. Default is Rosales.
+The function interacts with the "order" endpoint in the fruityvice API. Order is a taxonomic classification in which organisms are classified. It takes a parameter called order_name and return a dataframe by whatever order is chosen in parameter. Default parameter value is Rosales.
 ```{r}
 fruits_by_order <- function(order_name = "Rosales") {
     
@@ -132,7 +131,7 @@ return(as_tibble(dataframe))
 
 ## `fruits_by_nutrition_value()`
 
-The function interacts with the "nutrition value" endpoint in the fruityvice API. This function will take in 3 parameters, the name of the nutrition value, minimum amount of that nutrition value, and maximum amount of that nutrition value. This function will return a dataframe with fruits for specific nutrition value between certain range of values defined. The default is calories between range of 0 and 50 calories. 
+The function interacts with the "nutrition value" endpoint in the fruityvice API. This function will take in 3 parameters, the name of the nutrition value, minimum amount of that nutrition value, and maximum amount of that nutrition value. This function will return a dataframe with fruits for specific nutrition value between certain range of values defined. The default parameter values are calories and between range of 0 and 50 calories. 
 ```{r}
 fruits_by_nutrition_value <- function(nutrition_name = "calories", min = 0 , max = 50) {
     
@@ -173,7 +172,7 @@ fruit_data_full
 
 As you can see there are not too many observations, only 45, but we will still do some exploratory analysis. The nutrition values variables are calories, fat, sugar, carbohydrates, and protein. These variables are all measured in grams where values are per 100g of the fruit. Each observation is a different fruit.
 
-The family, order, genus are taxonomic variables which are used in classification of different organisms. There is a taxonomic hierarchy where it is order --> family --> genus, in which order is the higher taxonomic level. 
+The family, order, genus are taxonomic variables which are used in classification of different organisms. There is a taxonomic hierarchy where it is order --> family --> genus, in which it goes from highest to lowest. There are other taxonomic classifications but they are not recorded in this API.
 
 
 I created a contingency table to look at the frequency of each order in full dataset.
@@ -196,7 +195,7 @@ table(fruit_data_full$genus)
 ```
 Citrus has the highest amount which is 5 fruits, followed by Prunus which is 4 fruits. The other families have low frequency around 1-2.
 
-As you can see, in all the different taxonomical orders, there is not a lot for group analysis, but we can still get some idea of the data through some exploration.
+As you can see, in all the different taxonomical orders, there is not a lot of observations in each group for some type of group analysis, but we can still get some idea of the data through some exploration. 
 
 Fruits are considered a healthy part of a normal diet and are encouraged to be eaten by doctors, dietitians, and nutrition experts. Fruits also contain a lot of naturally occurring sugar as well. I want to see a histogram of sugar values for all the fruits in the data.
 ```{r}
@@ -223,31 +222,73 @@ Based on this correlation matrix plot, we can see that most of the variables are
 
 Next, I would like to take a look at the second api endpoint which takes data based on order level of data. This can be done with function_by_order(). Using the default order name as Rosales lets output data into an object.
 ```{r}
-Rosales_Data <- fruits_by_order()
-Rosales_Data
+Rosales_Order_Data <- fruits_by_order()
+Rosales_Order_Data
 ```
 
 I decided to create a two-way contingency table to look at the different families and genus in the Rosales order.
 ```{r}
-table(Rosales_Data$family, Rosales_Data$genus)
+table(Rosales_Order_Data$family, Rosales_Order_Data$genus)
 ```
 The Rosales order has only Ebenaceae, Moraceae, and Rosaceae taxonomic families. The number of taxonomic genuses is larger with 9 total genuses. The largest group in this contingency table is 4 fruits in Rosaceae family and Prunus genus.
 
 
-For the Rosales order data, I would like to take a look at boxplot for the different nutrition variables as it will give me a idea about how the variables are distributed and what values are higher for fruits in Rosales order.
+Using the Rosales data lets do some numerical summaries of our data
 ```{r}
-Rosales_Data %>% select(fat, sugar, carbohydrates, protein) %>% rename(carb = carbohydrates) %>% boxplot(main = "Boxplot for different Nutrition Variables for Rosales Order", horizontal = T, ylab = "Values per 100g", xlab = "Nutrition Variables", col = c("Green", "Red", "Blue", "Orange"))
+Rosales_Order_Data %>% summarize(mean_fat = mean(fat), sd_fat = sd(fat), mean_carbohydrates = mean(carbohydrates), sd_carbohydrates = sd(carbohydrates), mean_protein = mean(protein), sd_protein = sd(protein), mean_sugar = mean(sugar), sd_sugar = sd(sugar))
+```
+For the Rosales order, the carbohydrates and sugars have higher means and standard deviations then the proteins and fat values. The mean and standard deviation for fruits of Rosales order were smallest.
+
+Now that we summarized the data a little. I would like to visualize the different nutrition variables in the form of a boxplot as it will give me a idea about how the variables are distributed. 
+```{r}
+Rosales_Order_Data %>% select(fat, sugar, carbohydrates, protein) %>% rename(carb = carbohydrates) %>% boxplot(main = "Boxplot for different Nutrition Variables for Rosales Order", horizontal = T, ylab = "Values per 100g", xlab = "Nutrition Variables", col = c("Green", "Red", "Blue", "Orange"))
 ```
 The distribution for protein and fat variables for fruits in Rosales order are very small in terms of their value compared to the sugar and carbohydrate variables. The sugar and carbohydrate variables were relatively equal in distribution. They had around the same minimum, but carbohydrates had a higher maximum. The median for carbohydrates was also higher. There are more outliers in sugar variable then carbohydrate variable, but fat and protein had no outliers. 
 
 
 Looking at the distribution of fat and protein in the Rosales order, there very similar in terms of distribution, I want to know if there was any type of trend between fat and protein for Rosales order.
 ```{r}
-ggplot(Rosales_Data, aes(x = protein, y = fat, color = family)) + geom_point() + labs(title = "Scatterplot of Protein and Fat for Rosales Order by Family Taxonomy", x = "Protein Values per 100g", y = "Fat Values per 100g")
+ggplot(Rosales_Order_Data, aes(x = protein, y = fat, color = family)) + geom_point() + labs(title = "Scatterplot of Protein and Fat for Rosales Order by Family Taxonomy", x = "Protein Values per 100g", y = "Fat Values per 100g")
 ```
-Majority of the values in Rosale order are in the Ebenaceae family. There seems to be a general positive trend between fat and protein values for fruits in Rosale order. 
+Majority of the values in Rosale order are in the Rosaceae family. There seems to be a general positive trend between fat and protein values for fruits in Rosale order. 
 
 
+We got some insight from Rosale order, lets call the next function fruit_by_family() using the default Rosaceae. As we saw before Rosaceae is most common family in order Rosales from the data in this API.
+```{r}
+Rosaceae_Family_Data <- fruits_by_family()
+Rosaceae_Family_Data
+```
+Returns a dataframe with fruit observations from Rosaceae family.
 
 
+Lets now do some numerical summarization of nutrition variables for Rosaceae family to see how the different nutrition values compare.
+```{r}
+Rosaceae_Family_Data %>% summarize(mean_fat = mean(fat), sd_fat = sd(fat), mean_carbohydrates = mean(carbohydrates), sd_carbohydrates = sd(carbohydrates), mean_protein = mean(protein), sd_protein = sd(protein), mean_sugar = mean(sugar), sd_sugar = sd(sugar))
+```
+We see that carbohydrates and sugar have the highest mean values and standard deviation values. Protein and fat mean and standard deviation values are the smallest. Fat numerical summary values are the smallest. 
 
+
+For the full data of fruits, we looked at a scatterplot looking at carbohydrates and calories. In addition, looking at the correlation matrix plot we saw that there was no correlation between sugars and calories. Lets look at a scatterplot looking at sugars and calories to see if there is any trend within the Rosaceae family.
+```{r}
+ggplot(Rosaceae_Family_Data, aes(x = sugar, y = calories, color = genus)) + geom_point() + labs(title = "Scatterplot of Sugar and Calories for Rosaceae Family by Genus", x = "Sugar Values per 100g", y = "Calories Values per 100g")
+```
+The scatterplot does not seem to have a correlation between sugar and calories within the Rosaceae family, which seems similar to what was found for the full data. 
+
+
+Now that we have looked at using fruit_full(), fruit_by_order(), and fruit_by_family(), lets do one more function API call using fruits_by_nutrition_value() and show some summarization of data. We will be using the default parameters.
+```{r}
+calorie_data <- fruits_by_nutrition_value()
+calorie_data
+```
+We get a dataframe for fruits with calorie value between 0g and 50g calories per 100g.
+
+
+Lets do some numerical summarization for aforementioned dataframe, for the fat, sugar, carbohydrates, and protein variables.
+```{r}
+calorie_data %>% summarize(mean_fat = mean(fat), sd_fat = sd(fat), mean_carbohydrates = mean(carbohydrates), sd_carbohydrates = sd(carbohydrates), mean_protein = mean(protein), sd_protein = sd(protein), mean_sugar = mean(sugar), sd_sugar = sd(sugar))
+```
+For our dataframe which looks at fruits with calories between 0g and 50g per 100g, imilar to what we saw in other numerical summaries, we saw that carbohydrates and sugar having the highest mean values and standard deviation values. In this case, while the mean for carbohydrates is higher then sugar, the standard deviation for sugar is higher then carbohydrates. Fat content has overall lowest values for this subset.
+
+# Conclusion
+
+To conclude this report, I created this vignette to showcase how I built different functions to call data from different endpoints in the [Fruityvice API]("https://www.fruityvice.com/doc/index.html). Once I retrieved data from different endpoints, I used numerical summaries, contingency tables, and plots to show some data exploration. There were some limitations to exploring data due to the entire API having a total of 45 observations. Considering that there are 2000 different types of fruits and for example 7500 other types of apples, this API has the potential to become a great collection of data on fruits. In addition, you can send requests to the API to add a fruit to the database! Hopefully it grows more in the future. Hopefully this vignette has given clarification on how to access API and learning to do some exploring of data in some way.
