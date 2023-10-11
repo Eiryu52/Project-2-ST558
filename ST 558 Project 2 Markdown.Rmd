@@ -1,0 +1,137 @@
+---
+title: "we"
+author: "Karthik Edupuganti"
+date: "2023-10-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(httr)
+library(jsonlite)
+library(tidyverse)
+```
+
+```{r}
+mydata <- fromJSON("https://www.fruityvice.com/api/fruit/all")
+```
+
+```{r}
+fruits_full <- function() {
+    
+dataframe <- fromJSON("https://www.fruityvice.com/api/fruit/all")
+  
+#Extracting variables from nested dataframe variable "Nutritions"
+nutrition_variables <- dataframe$nutritions
+
+#Extract and convert the variables from the nested dataframe
+dataframe$calories <- nutrition_variables$calories
+dataframe$fat <- nutrition_variables$fat
+dataframe$sugar <- nutrition_variables$sugar
+dataframe$carbohydrates <- nutrition_variables$carbohydrates
+dataframe$protein <- nutrition_variables$protein
+
+
+#Remove the original nested variable
+dataframe$nutritions <- NULL
+
+
+return(as_tibble(dataframe))
+}
+
+
+```
+
+
+```{r}
+fruits_by_family <- function(family_name = "Rosaceae") {
+    
+url_base <- "https://www.fruityvice.com/api/fruit/family/"
+
+dataframe <- fromJSON(paste0(url_base, family_name))
+
+
+#Extracting variables from nested dataframe variable "Nutritions"
+nutrition_variables <- dataframe$nutritions
+
+# Extract and convert the variables from the nested dataframe
+dataframe$calories <- nutrition_variables$calories
+dataframe$fat <- nutrition_variables$fat
+dataframe$sugar <- nutrition_variables$sugar
+dataframe$carbohydrates <- nutrition_variables$carbohydrates
+dataframe$protein <- nutrition_variables$protein
+
+
+# Remove the original nested variable
+dataframe$nutritions <- NULL
+
+
+return(as_tibble(dataframe))
+}
+```
+
+
+```{r}
+fruits_by_order <- function(order_name = "Rosales") {
+    
+url_base <- "https://www.fruityvice.com/api/fruit/order/"
+
+dataframe <- fromJSON(paste0(url_base, order_name))
+
+
+#Extracting variables from nested dataframe variable "Nutritions"
+nutrition_variables <- dataframe$nutritions
+
+# Extract and convert the variables from the nested dataframe
+dataframe$calories <- nutrition_variables$calories
+dataframe$fat <- nutrition_variables$fat
+dataframe$sugar <- nutrition_variables$sugar
+dataframe$carbohydrates <- nutrition_variables$carbohydrates
+dataframe$protein <- nutrition_variables$protein
+
+
+# Remove the original nested variable
+dataframe$nutritions <- NULL
+
+
+return(as_tibble(dataframe))
+}
+
+
+```
+
+
+```{r}
+fruits_by_nutrition_value <- function(nutrition_name = "calories", min = 0 , max = 50) {
+    
+url_base <- "https://www.fruityvice.com/api/fruit/"
+
+dataframe <- fromJSON(paste0(url_base,nutrition_name, "?min=", min, "&max=", max))
+
+
+#Extracting variables from nested dataframe variable "Nutritions"
+nutrition_variables <- dataframe$nutritions
+
+# Extract and convert the variables from the nested dataframe
+dataframe$calories <- nutrition_variables$calories
+dataframe$fat <- nutrition_variables$fat
+dataframe$sugar <- nutrition_variables$sugar
+dataframe$carbohydrates <- nutrition_variables$carbohydrates
+dataframe$protein <- nutrition_variables$protein
+
+
+# Remove the original nested variable
+dataframe$nutritions <- NULL
+
+
+return(as_tibble(dataframe))
+}
+
+```
+
+
+
+
