@@ -535,7 +535,7 @@ calorie_data %>% summarize(mean_fat = mean(fat), sd_fat = sd(fat), mean_carbohyd
     ## 1     0.31  0.254               8.73             2.53        0.701      0.466       5.43     3.07
 
 For our dataframe which looks at fruits with calories between 0g and 50g
-per 100g, imilar to what we saw in other numerical summaries, we saw
+per 100g, similar to what we saw in other numerical summaries, we saw
 that carbohydrates and sugar having the highest mean values and standard
 deviation values. In this case, while the mean for carbohydrates is
 higher then sugar, the standard deviation for sugar is higher then
