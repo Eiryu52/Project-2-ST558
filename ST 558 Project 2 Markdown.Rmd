@@ -1,8 +1,12 @@
 ---
-title: "we"
+title: "ST 558 Project 2 - Fruit API"
 author: "Karthik Edupuganti"
 date: "2023-10-10"
-output: html_document
+output: 
+  github_document:
+    toc: true
+    toc_depth: 2
+    html_preview: false
 ---
 
 ```{r setup, include=FALSE}
