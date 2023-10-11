@@ -205,7 +205,7 @@ ggplot(fruit_data_full, aes(x = sugar)) + geom_histogram(binwidth = 0.5, fill = 
 There seems to be relatively normal distribution to sugar amount for all the different types of fruits.
 
 
-Calories are an important part everyday diet, the standard is between 1600 and 3000 calories per day. Rather than seeing a general distribution of calories, I would like to look at a scatterplot between amount of carbohydrates in fruits and amount of calories in fruits to see a general trend between the two variables, considering carbohydrates are big portion of meals.
+Calories are an important part when considering the type of diet you follow, the standard is between 1600 and 3000 calories per day. Rather than seeing a general distribution of calories, I would like to look at a scatterplot between amount of carbohydrates in fruits and amount of calories in fruits to see a general trend between the two variables, considering carbohydrates are big portion of meals.
 ```{r}
 ggplot(fruit_data_full, aes(x = carbohydrates, y = calories, color = order)) + geom_point() + labs(title = "Scatterplot of Carbohydrates and Calories by Order Taxonomy", x = "Carbohydrate Values per 100g", y = "Calorie Values per 100g")
 ```
@@ -215,7 +215,7 @@ There seems to be a positive trend between increasing values of carbohydrate and
 Looking at the scatterplot from above, I thought that it would be interesting to look at a correlation matrix to see how the nutrition values are correlated with each other. I have decided to put them in a graphical form similar to a heatmap!
 ```{r}
 correlations <- fruit_data_full %>% select(calories, fat, sugar, carbohydrates, protein) %>% cor()
-ggcorrplot(correlations, hc.order = TRUE, outline.color = "black")
+ggcorrplot(correlations, hc.order = TRUE, outline.color = "black", title = "Correlation Matrix Visualization for All Fruit Data")
 ```
 Based on this correlation matrix plot, we can see that most of the variables are strong postively correlated with each other. Sugar is only highly positively correlated with carbohydrates, while weak negative relationship with protein and fat, and no relationship with calories. Carbohydrates has weak positive relationships with proteins, calories, and fats. 
 
