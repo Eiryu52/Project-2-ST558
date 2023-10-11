@@ -298,7 +298,7 @@ Lets do some numerical summarization for the dataframe we just created, we will 
 ```{r}
 calorie_data %>% summarize(mean_fat = mean(fat), sd_fat = sd(fat), mean_carbohydrates = mean(carbohydrates), sd_carbohydrates = sd(carbohydrates), mean_protein = mean(protein), sd_protein = sd(protein), mean_sugar = mean(sugar), sd_sugar = sd(sugar))
 ```
-For our dataframe which looks at fruits with calories between 0g and 50g per 100g, imilar to what we saw in other numerical summaries, we saw that carbohydrates and sugar having the highest mean values and standard deviation values. In this case, while the mean for carbohydrates is higher then sugar, the standard deviation for sugar is higher then carbohydrates. Fat content has overall lowest values for this subset.
+For our dataframe which looks at fruits with calories between 0g and 50g per 100g, similar to what we saw in other numerical summaries, we saw that carbohydrates and sugar having the highest mean values and standard deviation values. In this case, while the mean for carbohydrates is higher then sugar, the standard deviation for sugar is higher then carbohydrates. Fat content has overall lowest values for this subset.
 
 # Conclusion
 
