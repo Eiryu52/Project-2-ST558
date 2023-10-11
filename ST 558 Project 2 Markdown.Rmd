@@ -170,8 +170,29 @@ ggplot(fruit_data_full, aes(x = sugar)) + geom_histogram(binwidth = 0.5, fill = 
 There seems to be relatively normal distribution to sugar amount for all the different types of fruits.
 
 
-Calories are an important part of the 
+Calories are an important part everyday diet, the standard is between 1600 and 3000 calories per day. Rather than seeing a general distribution of calories, I would like to look at a scatterplot between amount of carbohydrates in fruits and amount of calories in fruits to see a general trend between the two variables, considering carbohydrates are big portion of meals.
 ```{r}
-ggplot(fruit_data_full, aes(x = ))
+ggplot(fruit_data_full, aes(x = carbohydrates, y = calories, color = order)) + geom_point() + labs(title = "Scatterplot of Carbohydrates and Calories by Order Taxonomy", x = "Carbohydrate Values per 100g", y = "Calorie Values per 100g")
 ```
+There seems to be a positive trend between increasing values of carbohydrate and calories in fruits. One value, Ericales although does not have the highest carbohydrate value does have the highest amount of calories. 
+
+Next, I would like to take a look at the second api endpoint which takes data based on order level of data. This can be done with function_by_order(). Using the default order name as Rosales lets output data into an object.
+```{r}
+Rosales_Data <- fruits_by_order()
+Rosales_Data
+```
+
+I decided to create a two-way contingency table to look at the different families and genus in the Rosales order.
+```{r}
+table(Rosales_Data$family, Rosales_Data$genus)
+```
+The Rosales order has only Ebenaceae, Moraceae, and Rosaceae taxonomic families. The number of taxonomic genuses is larger with 9 total genuses. The largest group in this contingency table is 4 fruits in Rosaceae family and Prunus genus.
+
+
+Here is a look at the 
+```{r}
+Rosales_Data %>% select(fat, sugar, carbohydrates, protein) %>% boxplot(main = "Boxplot for different Nutrition Variables", horizontal = T, ylab = "Values per 100g", xlab = "Nutrition Variables", col = c("Green", "Red", "Blue", "Orange"))
+```
+
+
 
