@@ -9,15 +9,12 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r, message = FALSE}
 library(httr)
 library(jsonlite)
 library(tidyverse)
 ```
 
-```{r}
-mydata <- fromJSON("https://www.fruityvice.com/api/fruit/all")
-```
 
 ```{r}
 fruits_full <- function() {
@@ -133,5 +130,48 @@ return(as_tibble(dataframe))
 ```
 
 
+Now that we have the different endpoints to call the data from the API. Lets do some data exploration. Lets take a look at the overall data on fruits by calling the fruits_function() and storing the dataframe into an object called fruit_data_full.
+```{r}
+fruit_data_full <- fruits_full()
+fruit_data_full
+```
 
+As you can see there are not too many observations, only 45, but we will still do some exploratory analysis. The nutrition values variables are calories, fat, sugar, carbohydrates, and protein. These variables are all measured in grams where values are per 100g of the fruit. Each observation is a different fruit.
+
+The family, order, genus are taxonomic variables which are used in classification of different organisms. There is a taxonomic hierarchy where it is order --> family --> genus, in which order is the higher taxonomic level. 
+
+
+I created a contingency table to look at the frequency of each order in full dataset.
+```{r}
+table(fruit_data_full$order)
+```
+Rosales has the most amount which is 15 fruits, followed by Sapindales which is 7 fruits. The other orders have low frequency around 1-2.
+
+
+I created a contingency table to look at the frequency of each family in full dataset.
+```{r}
+table(fruit_data_full$family)
+```
+Rosaceae has the highest amount which is 11 fruits, followed by Rutaceae which is 5 fruits. The other families have low frequency around 1-2.
+
+
+I created a contingency table to look at the frequency of each genus in full dataset.
+```{r}
+table(fruit_data_full$genus)
+```
+Citrus has the highest amount which is 5 fruits, followed by Prunus which is 4 fruits. The other families have low frequency around 1-2.
+
+
+Fruits are considered a healthy part of a normal diet and are encouraged to be eaten by doctors, dietitians, and nutrition experts. Fruits also contain a lot of naturally occurring sugar as well. I want to see a histogram of sugar values for all the fruits in the data.
+```{r}
+ggplot(fruit_data_full, aes(x = sugar)) + geom_histogram(binwidth = 0.5, fill = "skyblue") +
+  labs(title = "Histogram of Sugar Values for All Fruits", x = "Sugar Values per 100g", Y = "Frequency")
+```
+There seems to be relatively normal distribution to sugar amount for all the different types of fruits.
+
+
+Calories are an important part of the 
+```{r}
+ggplot(fruit_data_full, aes(x = ))
+```
 
