@@ -1,7 +1,17 @@
-we
+ST 558 Project 2 - Fruit API
 ================
 Karthik Edupuganti
 2023-10-10
+
+- [Introduction](#introduction)
+- [Required Packages](#required-packages)
+- [API Functions](#api-functions)
+  - [`fruits_full()`](#fruits_full)
+  - [`fruits_by_family()`](#fruits_by_family)
+  - [`fruits_by_order()`](#fruits_by_order)
+  - [`fruits_by_nutrition_value()`](#fruits_by_nutrition_value)
+- [Exploratory Data Analysis](#exploratory-data-analysis)
+- [Conclusion](#conclusion)
 
 # Introduction
 
