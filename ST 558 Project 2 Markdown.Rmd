@@ -9,17 +9,38 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r, message = FALSE}
-library(httr)
+# Introduction
+
+The document is a vignette that will show how to read and summarize data from an API. More specifically, the [Fruityvice API]("https://www.fruityvice.com/doc/index.html). The API has only a limited number of data which is 45 observations corresponding to 45 different fruits, so there are some limitations in terms of analysis. There are few endpoints in which we can access the API, and we will go through a couple of them and how to access them using functions.
+
+# Required Packages
+
+```{r, message = FALSE, echo = FALSE}
 library(jsonlite)
 library(tidyverse)
 library(ggcorrplot)
 ```
 
+The following packages are listed below for the creation of this vignette.
 
+* `jsonlite`: Allows for interaction with API and storing into a dataframe.
+* `tidyverse`: Tons of function and features for data manipulation and visualization
+* `ggcorrplot`: Usage for visualizing correlation matrix as a plot.
+
+
+# API Functions
+
+I will be defining the functions that can be used to pull data from different endpoints of the Fruityvice API.
+
+
+## `fruits_full()`
+
+This function interacts with the overall fruityvice API and returns a tibble of all fruits in API.
+Additionally, the function will be the skeleton for all the other functions in this vignette.
 ```{r}
 fruits_full <- function() {
     
+#Interacting with API and storing data into dataframe.
 dataframe <- fromJSON("https://www.fruityvice.com/api/fruit/all")
   
 #Extracting variables from nested dataframe variable "Nutritions"
@@ -43,12 +64,16 @@ return(as_tibble(dataframe))
 
 ```
 
+## `fruits_by_family()`
 
+The function interacts with the "family" endpoint in the fruityvice API. Family is a taxonomic classification in which organisms are classified. It takes a parameter called family_name and return a dataframe by whatever family is chosen in parameter. Default is Rosaceae.
 ```{r}
 fruits_by_family <- function(family_name = "Rosaceae") {
-    
+
+#Creating base url
 url_base <- "https://www.fruityvice.com/api/fruit/family/"
 
+#Combining base url with defined parameter of family name and storing data into dataframe.
 dataframe <- fromJSON(paste0(url_base, family_name))
 
 
@@ -71,12 +96,16 @@ return(as_tibble(dataframe))
 }
 ```
 
+## `fruits_by_order()`
 
+The function interacts with the "order" endpoint in the fruityvice API. Order is a taxonomic classification in which organisms are classified. It takes a parameter called order_name and return a dataframe by whatever order is chosen in parameter. Default is Rosales.
 ```{r}
 fruits_by_order <- function(order_name = "Rosales") {
     
+#Creating base url
 url_base <- "https://www.fruityvice.com/api/fruit/order/"
 
+#Combining base url with defined parameter of order name and storing data into dataframe.
 dataframe <- fromJSON(paste0(url_base, order_name))
 
 
@@ -101,12 +130,16 @@ return(as_tibble(dataframe))
 
 ```
 
+## `fruits_by_nutrition_value()`
 
+The function interacts with the "nutrition value" endpoint in the fruityvice API. This function will take in 3 parameters, the name of the nutrition value, minimum amount of that nutrition value, and maximum amount of that nutrition value. This function will return a dataframe with fruits for specific nutrition value between certain range of values defined. The default is calories between range of 0 and 50 calories. 
 ```{r}
 fruits_by_nutrition_value <- function(nutrition_name = "calories", min = 0 , max = 50) {
     
+#Creating base url
 url_base <- "https://www.fruityvice.com/api/fruit/"
 
+#Combining base url with other parameters and storing data into dataframe.
 dataframe <- fromJSON(paste0(url_base,nutrition_name, "?min=", min, "&max=", max))
 
 
@@ -130,6 +163,7 @@ return(as_tibble(dataframe))
 
 ```
 
+# Exploratory Data Analysis
 
 Now that we have the different endpoints to call the data from the API. Lets do some data exploration. Lets take a look at the overall data on fruits by calling the fruits_function() and storing the dataframe into an object called fruit_data_full.
 ```{r}
@@ -162,6 +196,7 @@ table(fruit_data_full$genus)
 ```
 Citrus has the highest amount which is 5 fruits, followed by Prunus which is 4 fruits. The other families have low frequency around 1-2.
 
+As you can see, in all the different taxonomical orders, there is not a lot for group analysis, but we can still get some idea of the data through some exploration.
 
 Fruits are considered a healthy part of a normal diet and are encouraged to be eaten by doctors, dietitians, and nutrition experts. Fruits also contain a lot of naturally occurring sugar as well. I want to see a histogram of sugar values for all the fruits in the data.
 ```{r}
