@@ -294,7 +294,7 @@ calorie_data
 We get a dataframe for fruits with calorie value between 0g and 50g calories per 100g.
 
 
-Lets do some numerical summarization for aforementioned dataframe, for the fat, sugar, carbohydrates, and protein variables.
+Lets do some numerical summarization for the dataframe we just created, we will summarize the fat, carbohydrates, protein, and sugar variables.
 ```{r}
 calorie_data %>% summarize(mean_fat = mean(fat), sd_fat = sd(fat), mean_carbohydrates = mean(carbohydrates), sd_carbohydrates = sd(carbohydrates), mean_protein = mean(protein), sd_protein = sd(protein), mean_sugar = mean(sugar), sd_sugar = sd(sugar))
 ```
