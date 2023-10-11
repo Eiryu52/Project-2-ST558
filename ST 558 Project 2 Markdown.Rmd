@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(httr)
 library(jsonlite)
 library(tidyverse)
+library(ggcorrplot)
 ```
 
 
@@ -174,7 +175,16 @@ Calories are an important part everyday diet, the standard is between 1600 and 3
 ```{r}
 ggplot(fruit_data_full, aes(x = carbohydrates, y = calories, color = order)) + geom_point() + labs(title = "Scatterplot of Carbohydrates and Calories by Order Taxonomy", x = "Carbohydrate Values per 100g", y = "Calorie Values per 100g")
 ```
-There seems to be a positive trend between increasing values of carbohydrate and calories in fruits. One value, Ericales although does not have the highest carbohydrate value does have the highest amount of calories. 
+There seems to be a positive trend between increasing values of carbohydrate and calories in fruits. One value, Ericales order, does not have the highest carbohydrate value but does have the highest amount of calories. 
+
+
+Looking at the scatterplot from above, I thought that it would be interesting to look at a correlation matrix to see how the nutrition values are correlated with each other. I have decided to put them in a graphical form similar to a heatmap!
+```{r}
+correlations <- fruit_data_full %>% select(calories, fat, sugar, carbohydrates, protein) %>% cor()
+ggcorrplot(correlations, hc.order = TRUE, outline.color = "black")
+```
+Based on this correlation matrix plot, we can see that most of the variables are strong postively correlated with each other. Sugar is only highly positively correlated with carbohydrates, while weak negative relationship with protein and fat, and no relationship with calories. Carbohydrates has weak positive relationships with proteins, calories, and fats. 
+
 
 Next, I would like to take a look at the second api endpoint which takes data based on order level of data. This can be done with function_by_order(). Using the default order name as Rosales lets output data into an object.
 ```{r}
@@ -189,10 +199,20 @@ table(Rosales_Data$family, Rosales_Data$genus)
 The Rosales order has only Ebenaceae, Moraceae, and Rosaceae taxonomic families. The number of taxonomic genuses is larger with 9 total genuses. The largest group in this contingency table is 4 fruits in Rosaceae family and Prunus genus.
 
 
-Here is a look at the 
+For the Rosales order data, I would like to take a look at boxplot for the different nutrition variables as it will give me a idea about how the variables are distributed and what values are higher for fruits in Rosales order.
 ```{r}
-Rosales_Data %>% select(fat, sugar, carbohydrates, protein) %>% boxplot(main = "Boxplot for different Nutrition Variables", horizontal = T, ylab = "Values per 100g", xlab = "Nutrition Variables", col = c("Green", "Red", "Blue", "Orange"))
+Rosales_Data %>% select(fat, sugar, carbohydrates, protein) %>% rename(carb = carbohydrates) %>% boxplot(main = "Boxplot for different Nutrition Variables for Rosales Order", horizontal = T, ylab = "Values per 100g", xlab = "Nutrition Variables", col = c("Green", "Red", "Blue", "Orange"))
 ```
+The distribution for protein and fat variables for fruits in Rosales order are very small in terms of their value compared to the sugar and carbohydrate variables. The sugar and carbohydrate variables were relatively equal in distribution. They had around the same minimum, but carbohydrates had a higher maximum. The median for carbohydrates was also higher. There are more outliers in sugar variable then carbohydrate variable, but fat and protein had no outliers. 
+
+
+Looking at the distribution of fat and protein in the Rosales order, there very similar in terms of distribution, I want to know if there was any type of trend between fat and protein for Rosales order.
+```{r}
+ggplot(Rosales_Data, aes(x = protein, y = fat, color = family)) + geom_point() + labs(title = "Scatterplot of Protein and Fat for Rosales Order by Family Taxonomy", x = "Protein Values per 100g", y = "Fat Values per 100g")
+```
+Majority of the values in Rosale order are in the Ebenaceae family. There seems to be a general positive trend between fat and protein values for fruits in Rosale order. 
+
+
 
 
 
