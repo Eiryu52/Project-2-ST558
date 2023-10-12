@@ -313,8 +313,49 @@ calories in fruits to see a general trend between the two variables,
 considering carbohydrates are big portion of meals.
 
 ``` r
-ggplot(fruit_data_full, aes(x = carbohydrates, y = calories, color = order)) + geom_point() + labs(title = "Scatterplot of Carbohydrates and Calories by Order Taxonomy", x = "Carbohydrate Values per 100g", y = "Calorie Values per 100g")
+ggplot(fruit_data_full, aes(x = carbohydrates, y = calories, color = order)) + geom_point() + geom_smooth() + labs(title = "Scatterplot of Carbohydrates and Calories by Order Taxonomy", x = "Carbohydrate Values per 100g", y = "Calorie Values per 100g")
 ```
+
+    ## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : span too small.
+    ## fewer data values than degrees of freedom.
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : at 6.99
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : radius 0.0001
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : all data on
+    ## boundary of neighborhood. make span bigger
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : pseudoinverse
+    ## used at 6.99
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : neighborhood
+    ## radius 0.01
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : reciprocal
+    ## condition number 1
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : at 9.01
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : radius 0.0001
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : all data on
+    ## boundary of neighborhood. make span bigger
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : There are other
+    ## near singularities as well. 0.0001
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : zero-width
+    ## neighborhood. make span bigger
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : zero-width
+    ## neighborhood. make span bigger
+
+    ## Warning: Computation failed in `stat_smooth()`
+    ## Caused by error in `predLoess()`:
+    ## ! NA/NaN/Inf in foreign function call (arg 5)
 
 ![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
@@ -427,8 +468,47 @@ there very similar in terms of distribution, I want to know if there was
 any type of trend between fat and protein for Rosales order.
 
 ``` r
-ggplot(Rosales_Order_Data, aes(x = protein, y = fat, color = family)) + geom_point() + labs(title = "Scatterplot of Protein and Fat for Rosales Order by Family Taxonomy", x = "Protein Values per 100g", y = "Fat Values per 100g")
+ggplot(Rosales_Order_Data, aes(x = protein, y = fat, color = family)) + geom_point() + geom_smooth() + labs(title = "Scatterplot of Protein and Fat for Rosales Order by Family Taxonomy", x = "Protein Values per 100g", y = "Fat Values per 100g")
 ```
+
+    ## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : span too small.
+    ## fewer data values than degrees of freedom.
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : pseudoinverse
+    ## used at 0.7954
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : neighborhood
+    ## radius 0.6446
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : reciprocal
+    ## condition number 0
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : There are other
+    ## near singularities as well. 0.080997
+
+    ## Warning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x else if
+    ## (is.data.frame(newdata)) as.matrix(model.frame(delete.response(terms(object)), : span too small.
+    ## fewer data values than degrees of freedom.
+
+    ## Warning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x else if
+    ## (is.data.frame(newdata)) as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse
+    ## used at 0.7954
+
+    ## Warning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x else if
+    ## (is.data.frame(newdata)) as.matrix(model.frame(delete.response(terms(object)), : neighborhood
+    ## radius 0.6446
+
+    ## Warning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x else if
+    ## (is.data.frame(newdata)) as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+    ## condition number 0
+
+    ## Warning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x else if
+    ## (is.data.frame(newdata)) as.matrix(model.frame(delete.response(terms(object)), : There are other
+    ## near singularities as well. 0.080997
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning -Inf
 
 ![](README_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
 
@@ -485,8 +565,51 @@ calories. Lets look at a scatterplot looking at sugars and calories to
 see if there is any trend within the Rosaceae family.
 
 ``` r
-ggplot(Rosaceae_Family_Data, aes(x = sugar, y = calories, color = genus)) + geom_point() + labs(title = "Scatterplot of Sugar and Calories for Rosaceae Family by Genus", x = "Sugar Values per 100g", y = "Calories Values per 100g")
+ggplot(Rosaceae_Family_Data, aes(x = sugar, y = calories, color = genus)) + geom_point() + geom_smooth() + labs(title = "Scatterplot of Sugar and Calories for Rosaceae Family by Genus", x = "Sugar Values per 100g", y = "Calories Values per 100g")
 ```
+
+    ## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : span too small.
+    ## fewer data values than degrees of freedom.
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : at 6.3805
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : radius
+    ## 0.00038025
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : all data on
+    ## boundary of neighborhood. make span bigger
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : pseudoinverse
+    ## used at 6.3805
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : neighborhood
+    ## radius 0.0195
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : reciprocal
+    ## condition number 1
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : at 10.32
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : radius
+    ## 0.00038025
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : all data on
+    ## boundary of neighborhood. make span bigger
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : There are other
+    ## near singularities as well. 0.00038025
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : zero-width
+    ## neighborhood. make span bigger
+
+    ## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : zero-width
+    ## neighborhood. make span bigger
+
+    ## Warning: Computation failed in `stat_smooth()`
+    ## Caused by error in `predLoess()`:
+    ## ! NA/NaN/Inf in foreign function call (arg 5)
 
 ![](README_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
 
