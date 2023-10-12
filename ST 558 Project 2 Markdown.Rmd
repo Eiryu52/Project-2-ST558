@@ -212,7 +212,7 @@ There seems to be relatively normal distribution to sugar amount for all the dif
 
 Calories are an important part when considering the type of diet you follow, the standard is between 1600 and 3000 calories per day. Rather than seeing a general distribution of calories, I would like to look at a scatterplot between amount of carbohydrates in fruits and amount of calories in fruits to see a general trend between the two variables, considering carbohydrates are big portion of meals.
 ```{r}
-ggplot(fruit_data_full, aes(x = carbohydrates, y = calories, color = order)) + geom_point() + labs(title = "Scatterplot of Carbohydrates and Calories by Order Taxonomy", x = "Carbohydrate Values per 100g", y = "Calorie Values per 100g")
+ggplot(fruit_data_full, aes(x = carbohydrates, y = calories, color = order)) + geom_point() + geom_smooth() + labs(title = "Scatterplot of Carbohydrates and Calories by Order Taxonomy", x = "Carbohydrate Values per 100g", y = "Calorie Values per 100g")
 ```
 
 There seems to be a positive trend between increasing values of carbohydrate and calories in fruits. One value, Ericales order, does not have the highest carbohydrate value but does have the highest amount of calories. 
@@ -256,7 +256,7 @@ The distribution for protein and fat variables for fruits in Rosales order are v
 
 Looking at the distribution of fat and protein in the Rosales order, there very similar in terms of distribution, I want to know if there was any type of trend between fat and protein for Rosales order.
 ```{r}
-ggplot(Rosales_Order_Data, aes(x = protein, y = fat, color = family)) + geom_point() + labs(title = "Scatterplot of Protein and Fat for Rosales Order by Family Taxonomy", x = "Protein Values per 100g", y = "Fat Values per 100g")
+ggplot(Rosales_Order_Data, aes(x = protein, y = fat, color = family)) + geom_point() + geom_smooth() + labs(title = "Scatterplot of Protein and Fat for Rosales Order by Family Taxonomy", x = "Protein Values per 100g", y = "Fat Values per 100g")
 ```
 
 Majority of the values in Rosale order are in the Rosaceae family. There seems to be a general positive trend between fat and protein values for fruits in Rosale order. 
@@ -279,7 +279,7 @@ We see that carbohydrates and sugar have the highest mean values and standard de
 
 For the full data of fruits, we looked at a scatterplot looking at carbohydrates and calories. In addition, looking at the correlation matrix plot we saw that there was no correlation between sugars and calories. Lets look at a scatterplot looking at sugars and calories to see if there is any trend within the Rosaceae family.
 ```{r}
-ggplot(Rosaceae_Family_Data, aes(x = sugar, y = calories, color = genus)) + geom_point() + labs(title = "Scatterplot of Sugar and Calories for Rosaceae Family by Genus", x = "Sugar Values per 100g", y = "Calories Values per 100g")
+ggplot(Rosaceae_Family_Data, aes(x = sugar, y = calories, color = genus)) + geom_point() + geom_smooth() + labs(title = "Scatterplot of Sugar and Calories for Rosaceae Family by Genus", x = "Sugar Values per 100g", y = "Calories Values per 100g")
 ```
 
 The scatterplot does not seem to have a correlation between sugar and calories within the Rosaceae family, which seems similar to what was found for the full data. 
